@@ -181,6 +181,8 @@ Home page
 /*---- intro main section ----*/
 #intro-main h1 {
   font-size: 72px;
+  margin-top: 60px;
+  margin-bottom: 20px;
 }
 #intro-main h1 > span {
   color: #5800ff;
@@ -416,6 +418,20 @@ Responsive
   .dot-progress {
     margin-top: 20px;
   }
+  #intro-main h1 {
+    font-size: 52px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .btn-small {
+    padding: 15px 25px;
+  }
+  .btn-small-light {
+    padding: 15px 25px;
+  }
+  #user-testimonials {
+    margin-top: 60px;
+  }
 }
 
 /* Large Mobile :480px. */
@@ -453,6 +469,9 @@ Responsive
   .button-collapse {
     display: none;
   }
+  #intro-main img {
+    margin-top: 50px;
+  }
 }
 
 /* Small Mobile :320px. */
@@ -477,5 +496,19 @@ Responsive
   }
   .form-section input {
     width: 166px;
+  }
+  #intro-main h1 {
+    font-size: 42px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  #intro-main img {
+    margin-top: 40px;
+  }
+  .btn-small {
+    padding: 10px 20px;
+  }
+  .btn-small-light {
+    padding: 10px 20px;
   }
 }
