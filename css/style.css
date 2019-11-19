@@ -1,0 +1,292 @@
+/*=================================
+-----------------------------------
+  ProxyStrike HTML Template
+  Version: 1.0
+ ---------------------------------
+ =================================*/
+
+/*----------------------------------------*/
+/* Template default CSS
+/*----------------------------------------*/
+
+html,
+body {
+  height: 100%;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+input:focus,
+select:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+}
+
+/*---------------------
+Commom elements
+ -----------------------*/
+
+/*---- typography & color ----*/
+.text-sm {
+  font-size: 14px;
+}
+.text-blue {
+  color: #00baff;
+}
+.text-gray {
+  color: rgba(255, 255, 255, 0.2);
+}
+/*---- end of typography & color ----*/
+
+/*---- site logo ----*/
+.logo {
+  width: 30px;
+  height: 35px;
+  margin-right: 5px;
+}
+.logo-proxy {
+  font-size: 18px;
+  color: #f1f1f1;
+  font-weight: bold;
+}
+.logo-strike {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.5);
+}
+/*---- end of logo ----*/
+
+/*---- Preloder ----*/
+
+#preloder {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  background: #001229;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -13px;
+  margin-left: -13px;
+  border-radius: 60px;
+  animation: loader 0.8s linear infinite;
+  -webkit-animation: loader 0.8s linear infinite;
+}
+
+@keyframes loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    border: 4px solid #f44336;
+    border-left-color: transparent;
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    border: 4px solid #673ab7;
+    border-left-color: transparent;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    border: 4px solid #f44336;
+    border-left-color: transparent;
+  }
+}
+
+@-webkit-keyframes loader {
+  0% {
+    -webkit-transform: rotate(0deg);
+    border: 4px solid #f44336;
+    border-left-color: transparent;
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    border: 4px solid #673ab7;
+    border-left-color: transparent;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    border: 4px solid #f44336;
+    border-left-color: transparent;
+  }
+}
+/*---- end of loader ----*/
+
+/* ----------------
+Storage Plan page
+ -------------------*/
+
+/*---- header section ----*/
+header {
+  padding-bottom: 30px;
+}
+.header-title {
+  margin-top: 1px;
+}
+.header-nav-link {
+  font-size: 14px;
+}
+.header-nav-link:link,
+.header-nav-link:visited {
+  color: rgba(255, 255, 255, 0.7);
+}
+.header-nav-link:hover,
+.header-nav-link:active {
+  color: #f2f2f2;
+}
+/*---- end of header section ----*/
+
+/*---- storage pricing section ----*/
+#storage-pricing {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  border-top: 1px solid rgba(170, 170, 170, 0.1);
+  border-bottom: 1px solid rgba(170, 170, 170, 0.1);
+}
+.pricing-card {
+  background: #000f22;
+  padding: 20px;
+  border-radius: 10px;
+}
+.pricing-card-current {
+  background: rgba(197, 167, 255, 0.07);
+}
+.pricing-card hr {
+  border: 1px solid rgba(158, 158, 158, 0.7);
+  width: 20px;
+}
+.pricing-card p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+.pricing-button {
+  background: rgba(0, 186, 255, 0.08);
+  border: 1px solid rgba(0, 186, 255, 0);
+  width: 100%;
+  color: #00baff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  -webkit-transition: border 0.5s; /* Safari prior 6.1 */
+  transition: border 0.5s;
+}
+.pricing-button:hover {
+  border: 1px solid #008fc3;
+}
+.pricing-button-current {
+  background: #5800ff;
+  color: #ffffff;
+}
+.pricing-button-current:hover {
+  border: 1px solid #cccccc;
+}
+/*---- storage end of pricing section ----*/
+
+/*---- storage data usage section ----*/
+#data-usage {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+#data-usage h1 {
+  font-weight: bold;
+}
+#data-usage small,
+#data-usage span {
+  color: rgba(255, 255, 255, 0.5);
+}
+.dot-progress {
+  font-size: 8px;
+  text-align: center;
+  margin-top: 40px;
+}
+.dot-progress .fas {
+  margin-right: 10px;
+}
+/*---- end of storage data usage section ----*/
+
+/* ----------------
+Responsive
+ -------------------*/
+
+/* tablet view :992px. */
+@media only screen and (max-width: 992px) {
+  .dot-progress {
+    margin-top: 0px;
+  }
+  #data-usage h1 {
+    font-size: 18px;
+  }
+  .dot-progress {
+    margin-top: 20px;
+  }
+}
+
+/* Large Mobile :480px. */
+@media only screen and (max-width: 767px) {
+  .logo {
+    width: 20px;
+    height: 25px;
+    margin-right: 3px;
+  }
+  .logo-proxy {
+    font-size: 15px;
+  }
+  .logo-strike {
+    font-size: 15px;
+  }
+  .header-title {
+    margin-top: 2px;
+    font-size: 18px;
+  }
+  .header-nav-link {
+    font-size: 12px;
+  }
+  .pricing-card {
+    margin-bottom: 30px;
+  }
+  .pricing-card h5 {
+    font-size: 15px;
+  }
+  #data-usage .col-mb {
+    margin-bottom: 20px;
+  }
+  .dot-progress {
+    margin-top: 0px;
+  }
+}
+
+/* Small Mobile :320px. */
+@media only screen and (max-width: 575px) {
+  header {
+    text-align: center;
+  }
+  .header-title {
+    margin: 20px 0px;
+  }
+  .dot-progress {
+    margin-top: 0px;
+  }
+}
