@@ -81,6 +81,7 @@ Commom elements
   color: #cccccc;
   padding: 8px 5px;
   font-size: 14px;
+  width: 360px;
 }
 .btn-big:hover {
   background: #3b69df;
@@ -486,16 +487,16 @@ Responsive
     margin-top: 0px;
   }
   .form-section {
-    width: 320px;
+    width: 290px;
   }
   .btn-big {
-    width: 320px;
+    width: 290px;
   }
   .form-section .input-divider {
     margin: 0px 5px;
   }
   .form-section input {
-    width: 166px;
+    width: 150px;
   }
   #intro-main h1 {
     font-size: 42px;
