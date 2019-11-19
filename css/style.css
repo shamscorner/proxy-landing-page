@@ -15,6 +15,7 @@
 html,
 body {
   height: 100%;
+  margin: 0px;
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
@@ -396,7 +397,7 @@ Footer section
  -------------------*/
 #footer .copyright {
   font-size: 12px;
-  color: #5800ff;
+  color: #3b69df;
   text-align: center;
 }
 
