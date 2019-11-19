@@ -77,13 +77,32 @@ Commom elements
   background: #2a4381;
   border: none;
   outline: none;
-  width: 360px;
   color: #cccccc;
   padding: 8px 5px;
   font-size: 14px;
 }
 .btn-big:hover {
   background: #3b69df;
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
+.btn-small {
+  background: rgba(118, 0, 255, 0.25);
+  padding: 15px 35px;
+  margin: 5px;
+}
+.btn-small:hover {
+  background: rgba(118, 0, 255, 0.5);
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
+.btn-small-light {
+  border: 1px solid rgba(118, 0, 255, 0.5);
+  padding: 15px 35px;
+  margin: 5px;
+}
+.btn-small-light:hover {
+  background: rgba(118, 0, 255, 0.5);
   -webkit-transition: background 0.5s; /* Safari prior 6.1 */
   transition: background 0.5s;
 }
@@ -153,6 +172,61 @@ Commom elements
   }
 }
 /*---- end of loader ----*/
+
+/* ----------------
+Home page
+ -------------------*/
+
+/*---- intro main section ----*/
+#intro-main h1 {
+  font-size: 72px;
+}
+#intro-main h1 > span {
+  color: #5800ff;
+}
+#intro-main h4 {
+  color: rgba(255, 255, 255, 0.7);
+}
+#intro-main p {
+  color: rgba(255, 255, 255, 0.5);
+}
+#intro-main a {
+  color: #f1f1f1;
+  font-size: 14px;
+}
+/*---- end of intro main section ----*/
+
+/*---- user testimonials section ----*/
+#user-testimonials {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+#user-testimonials i {
+  color: #00baff;
+  margin-left: 5px;
+  font-size: 18px;
+}
+#user-testimonials i:hover {
+  color: #0394c8;
+}
+#user-testimonials .line {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  height: 1px;
+}
+.card-testimonial {
+  margin-top: 10px;
+  padding: 10px;
+}
+.card-testimonial h5 {
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+.card-testimonial p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+}
+/*---- end of user testimonials section ----*/
 
 /* ----------------
 Storage Plan page
@@ -316,6 +390,15 @@ User Profile page
   width: 175px;
 }
 /*---- end of the center glob div ----*/
+
+/* ----------------
+Footer section
+ -------------------*/
+#footer .copyright {
+  font-size: 12px;
+  color: #5800ff;
+  text-align: center;
+}
 
 /* ----------------
 Responsive
