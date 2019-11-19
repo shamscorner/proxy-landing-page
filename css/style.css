@@ -2,6 +2,9 @@
 -----------------------------------
   ProxyStrike HTML Template
   Version: 1.0
+  Author: Shamim Hossain
+  Email: hossains159@gmaill.com
+  Facebook: facebook.com/shamscorner
  ---------------------------------
  =================================*/
 
@@ -68,6 +71,23 @@ Commom elements
   color: rgba(255, 255, 255, 0.5);
 }
 /*---- end of logo ----*/
+
+/*---- elements ----*/
+.btn-big {
+  background: #2a4381;
+  border: none;
+  outline: none;
+  width: 360px;
+  color: #cccccc;
+  padding: 8px 5px;
+  font-size: 14px;
+}
+.btn-big:hover {
+  background: #3b69df;
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
+/*---- end of elements ----*/
 
 /*---- Preloder ----*/
 
@@ -156,6 +176,16 @@ header {
 .header-nav-link:active {
   color: #f2f2f2;
 }
+.header-nav-link-button {
+  background: #14234a;
+  padding: 8px 20px;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.header-nav-link-button:hover {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  -webkit-transition: border 0.5s; /* Safari prior 6.1 */
+  transition: border 0.5s;
+}
 /*---- end of header section ----*/
 
 /*---- storage pricing section ----*/
@@ -228,6 +258,66 @@ header {
 /*---- end of storage data usage section ----*/
 
 /* ----------------
+User Profile page
+ -------------------*/
+
+/*---- the center glob div ----*/
+#profile-info {
+  text-align: center;
+}
+#profile-info .bg-glob {
+  height: 550px;
+  background: url("../img/glob.png") no-repeat center;
+  background-size: 550px 550px;
+  padding-top: 140px;
+}
+#profile-info h2 {
+  font-weight: bold;
+}
+#profile-info p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+}
+.form-section {
+  border: 1px solid #008fc3;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  background: #001229;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+.form-section .input-divider {
+  width: 2px;
+  color: #00baff;
+  margin: 0px 20px;
+}
+.form-section button {
+  background: #00baff;
+  color: #000;
+  border: none;
+  outline: none;
+  padding: 4px 15px;
+  font-size: 14px;
+}
+.form-section button:hover {
+  background: #0394c8;
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
+.form-section input {
+  background: none;
+  outline: none;
+  border: none;
+  color: #f1f1f1;
+  text-align: center;
+  padding: 5px;
+  width: 175px;
+}
+/*---- end of the center glob div ----*/
+
+/* ----------------
 Responsive
  -------------------*/
 
@@ -276,6 +366,9 @@ Responsive
   .dot-progress {
     margin-top: 0px;
   }
+  .button-collapse {
+    display: none;
+  }
 }
 
 /* Small Mobile :320px. */
@@ -288,5 +381,17 @@ Responsive
   }
   .dot-progress {
     margin-top: 0px;
+  }
+  .form-section {
+    width: 320px;
+  }
+  .btn-big {
+    width: 320px;
+  }
+  .form-section .input-divider {
+    margin: 0px 5px;
+  }
+  .form-section input {
+    width: 166px;
   }
 }
