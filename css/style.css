@@ -42,6 +42,9 @@ ol {
 /*---------------------
 Commom elements
  -----------------------*/
+header {
+  padding-bottom: 30px;
+}
 
 /*---- typography & color ----*/
 .text-sm {
@@ -236,9 +239,6 @@ Storage Plan page
  -------------------*/
 
 /*---- header section ----*/
-header {
-  padding-bottom: 30px;
-}
 .header-title {
   margin-top: 1px;
 }
@@ -333,6 +333,81 @@ header {
   margin-right: 10px;
 }
 /*---- end of storage data usage section ----*/
+
+/* ----------------
+Pricing Plan page
+ -------------------*/
+
+/*---- pricing section ----*/
+.pricing-card-transparent {
+  padding: 20px;
+  border-radius: 10px;
+}
+.pricing-card-current-transparent {
+  background: rgba(00, 19, 44, 0.7);
+  border: 1px solid rgba(0, 186, 255, 0.3);
+}
+.pricing-card-transparent hr {
+  border: 1px solid rgba(158, 158, 158, 0.7);
+  width: 20px;
+}
+.pricing-card-transparent p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+.pricing-button-transparent {
+  background: rgba(0, 186, 255, 0.08);
+  border: 1px solid rgba(0, 186, 255, 0.3);
+  width: 100%;
+  color: #00baff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  -webkit-transition: border 0.5s; /* Safari prior 6.1 */
+  transition: border 0.5s;
+}
+.pricing-button-transparent:hover {
+  border: 1px solid #008fc3;
+}
+/*---- end of pricing section ----*/
+
+/*---- choose a plan section ----*/
+.billing-method {
+  margin-bottom: 10px;
+}
+.billing-method span:hover {
+  cursor: pointer;
+  color: #008fc3;
+}
+.billing-method #switch {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 81, 110, 0.2);
+}
+.billing-method img {
+  margin-left: -15px;
+}
+/*---- end of choose a plan section ----*/
+
+/*---- all plans includes section ----*/
+#plans-includes {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#plans-includes hr {
+  width: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+#plans-includes ul {
+  padding: 20px;
+  font-size: 13px;
+  line-height: 35px;
+  list-style-image: url("../img/check-icon.png");
+}
+/*---- end of all plans includes section ----*/
 
 /* ----------------
 User Profile page
@@ -469,8 +544,11 @@ Responsive
   .button-collapse {
     display: none;
   }
-  #intro-main img {
+  #intro-main img.img-glob {
     margin-top: 50px;
+  }
+  #storage-pricing {
+    padding-top: 0px;
   }
 }
 
@@ -502,7 +580,7 @@ Responsive
     margin-top: 10px;
     margin-bottom: 20px;
   }
-  #intro-main img {
+  #intro-main img.img-glob {
     margin-top: 40px;
   }
   .btn-small {
@@ -510,5 +588,8 @@ Responsive
   }
   .btn-small-light {
     padding: 10px 20px;
+  }
+  .billing-method span {
+    font-size: 12px;
   }
 }
