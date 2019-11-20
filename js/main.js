@@ -2,6 +2,9 @@
 --------------------------------------
   ProxyStrike HTML Template
   Version: 1.0
+  Author: Shamim Hossain
+  Email: hossains159@gmaill.com
+  Facebook: facebook.com/shamscorner
 --------------------------------------
 ======================================*/
 
