@@ -33,6 +33,9 @@
         background: #001229;
         color: #f1f1f1;
       }
+      .profile-link {
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
@@ -54,7 +57,7 @@
           </div>
           <div class="col-sm-4 text-center"></div>
           <div class="col-sm-4 text-right">
-            <a href="#" class="header-nav-link">
+            <a href="#" class="header-nav-link profile-link">
               <i class="fas fa-user text-blue"></i> &nbsp; Profile
             </a>
           </div>
@@ -65,13 +68,17 @@
       <!-- dashboard body -->
       <section id="dashboard-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <h3>Generate</h3>
             <hr class="divider" />
             <form>
               <div class="form-group">
                 <label for="inputLocation">Location</label>
-                <select class="form-control" id="inputLocation">
+                <select
+                  class="form-control"
+                  id="inputLocation"
+                  aria-describedby="locationHelp"
+                >
                   <option>USA</option>
                   <option>Canada</option>
                   <option>GB</option>
@@ -81,6 +88,9 @@
                   <option>Houston</option>
                   <option>Miami</option>
                 </select>
+                <small id="locationHelp" class="form-text text-muted">
+                  We don't share your location with anyone.
+                </small>
               </div>
               <div class="form-group">
                 <label for="inputQuantity">Quantity</label>
@@ -104,7 +114,7 @@
               <i class="fas fa-external-link-alt"></i> &nbsp;LOGOUT
             </p>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-8">
             <h3>Generated Proxies (562)</h3>
             <div class="text-right mb-2">
               <button class="btn btn-outline-danger btn-sm">Delete All</button>

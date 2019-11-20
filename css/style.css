@@ -653,4 +653,11 @@ Responsive
   .billing-method span {
     font-size: 12px;
   }
+  .list-proxies {
+    padding: 5px;
+  }
+  .list-proxies li {
+    margin: 5px 0px;
+    padding: 10px 0px;
+  }
 }
