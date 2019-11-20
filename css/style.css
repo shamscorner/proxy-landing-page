@@ -387,9 +387,6 @@ Pricing Plan page
   border-radius: 20px;
   border: 1px solid rgba(0, 81, 110, 0.2);
 }
-.billing-method img {
-  margin-left: -15px;
-}
 /*---- end of choose a plan section ----*/
 
 /*---- all plans includes section ----*/
