@@ -126,6 +126,18 @@ header {
   -webkit-transition: background 0.5s; /* Safari prior 6.1 */
   transition: background 0.5s;
 }
+.btn-very-large {
+  border: 1px solid rgba(118, 0, 255, 0.5);
+  padding: 30px;
+  color: #d8c4ff;
+  font-size: 20px;
+}
+.btn-very-large:hover {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
 /*---- end of elements ----*/
 
 /*---- custom transparent input ----*/
@@ -145,8 +157,6 @@ input.form-control:focus {
 /*---- end of custom transparent input ----*/
 
 /*---- proxies list style ----*/
-.proxies-holder {
-}
 .list-proxies {
   list-style-type: none;
   padding: 10px 30px;
@@ -531,6 +541,26 @@ User Profile page
 /*---- end of the center glob div ----*/
 
 /* ----------------
+Support page
+ -------------------*/
+/*---- frequently asked question section ----*/
+#frequently-asked {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 30px;
+}
+#frequently-asked h4 {
+  margin-top: 30px;
+}
+#frequently-asked ul {
+  margin-left: 40px;
+}
+#frequently-asked ul li {
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 40px;
+}
+/*---- end of frequently asked question section ----*/
+
+/* ----------------
 Footer section
  -------------------*/
 #footer .copyright {
@@ -611,6 +641,10 @@ Responsive
   #storage-pricing {
     padding-top: 0px;
   }
+  .btn-very-large {
+    padding: 10px;
+    font-size: 12px;
+  }
 }
 
 /* Small Mobile :320px. */
@@ -659,5 +693,19 @@ Responsive
   .list-proxies li {
     margin: 5px 0px;
     padding: 10px 0px;
+  }
+  #frequently-asked {
+    padding: 15px;
+  }
+  #frequently-asked h4 {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  #frequently-asked ul {
+    margin-left: 25px;
+  }
+  #frequently-asked ul li {
+    line-height: 30px;
+    font-size: 15px;
   }
 }
