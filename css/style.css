@@ -45,6 +45,9 @@ Commom elements
 header {
   padding-bottom: 30px;
 }
+.divider {
+  border: 0.5px solid #504c4c;
+}
 
 /*---- typography & color ----*/
 .text-sm {
@@ -110,7 +113,68 @@ header {
   -webkit-transition: background 0.5s; /* Safari prior 6.1 */
   transition: background 0.5s;
 }
+.btn-big-100 {
+  padding: 8px;
+  background: transparent;
+  border: 1px solid #9378cb;
+  color: #f1f1f1;
+  border-radius: 5px;
+}
+.btn-big-100:hover {
+  background: #7f5fbd;
+  color: #ffffff;
+  -webkit-transition: background 0.5s; /* Safari prior 6.1 */
+  transition: background 0.5s;
+}
 /*---- end of elements ----*/
+
+/*---- custom transparent input ----*/
+select.form-control,
+input.form-control {
+  background: transparent;
+  color: #f1f1f1;
+}
+select.form-control option {
+  background: #001229;
+}
+select.form-control:focus,
+input.form-control:focus {
+  background: #001229;
+  color: #f1f1f1;
+}
+/*---- end of custom transparent input ----*/
+
+/*---- proxies list style ----*/
+.proxies-holder {
+}
+.list-proxies {
+  list-style-type: none;
+  padding: 10px 30px;
+  color: #00baff;
+  max-height: 700px;
+  overflow-y: scroll;
+  background: #000d1f;
+}
+.list-proxies::-webkit-scrollbar {
+  display: none;
+}
+.list-proxies li {
+  margin: 10px 0px;
+  padding: 10px 0px;
+  border-bottom: 1px solid #2a4381;
+  cursor: pointer;
+}
+/*---- end of proxies list style ----*/
+
+/*---- logout text ----*/
+.logout-text {
+  cursor: pointer;
+  display: inline-block;
+}
+.logout-text:hover {
+  color: #77d8fb;
+}
+/*---- end of logout text ----*/
 
 /*---- Preloder ----*/
 
