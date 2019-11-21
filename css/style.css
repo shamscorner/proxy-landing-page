@@ -603,6 +603,15 @@ Login & register page
 }
 
 /* ----------------
+Dashboard page
+ -------------------*/
+#selectOrderBox {
+  position: absolute;
+  display: inline-block;
+  left: 20px;
+}
+
+/* ----------------
 Footer section
  -------------------*/
 #footer .copyright {

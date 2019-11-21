@@ -116,13 +116,16 @@
             <h3>Generated Proxies (562)</h3>
             <div class="mb-2 mt-4 text-right">
               <!-- select order -->
-              <span class="text-muted">Order &nbsp;</span>
-              <div class="form-group d-inline-block">
-                <select class="form-control form-control-sm" id="selectOrder">
-                  <option>0676-3677-5244</option>
-                  <option>0676-3677-5998</option>
-                  <option>0676-3677-4651</option>
-                </select>
+              <div id="selectOrderBox">
+                <!--<span class="text-muted">Order &nbsp;</span>-->
+                <div class="form-group d-inline-block">
+                  <select class="form-control form-control-sm" id="selectOrder">
+                    <option selected="true" disabled="disabled">Order</option>
+                    <option>0676-3677-5244</option>
+                    <option>0676-3677-5998</option>
+                    <option>0676-3677-4651</option>
+                  </select>
+                </div>
               </div>
               <!-- end of select order -->
               <button class="btn btn-outline-danger btn-sm">Delete All</button>
