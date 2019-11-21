@@ -157,6 +157,36 @@ input.form-control:focus {
 }
 /*---- end of custom transparent input ----*/
 
+/*---- circular progressbar ----*/
+#circular-progressbar {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  text-align: center;
+  background: #001229;
+  z-index: 1;
+  border-radius: 50%;
+}
+#circular-progressbar .round {
+  position: relative;
+}
+#circular-progressbar .round strong,
+#circular-progressbar .round p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
+#circular-progressbar .round strong {
+  margin-top: -26px;
+  font-size: 18px;
+}
+#circular-progressbar .round p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+/*---- end of circular progressbar ----*/
+
 /*---- proxies list style ----*/
 .list-proxies {
   list-style-type: none;
