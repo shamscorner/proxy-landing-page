@@ -21,9 +21,23 @@ $(window).on("load", function() {
 });
 
 (function($) {
+  // initiate everything for the circular progressbar
   Circle(".round");
+
+  // select order and update list of proxies
+  $("#selectOrder").change(function() {
+    // get the selected order id
+    var selectedOrder = $(this)
+      .children("option:selected")
+      .val();
+    //alert("selected order: " + selectedOrder);
+
+    // get the proxies list
+    updateListProxies($(".list-proxies"), ["a", "b", "c"]);
+  });
 })(jQuery);
 
+// for the circular progressbar
 function Circle(el) {
   $(el)
     .circleProgress({
@@ -35,4 +49,13 @@ function Circle(el) {
         .find("strong")
         .text(String(stepValue.toFixed(2)).substr(2) + "%");
     });
+}
+
+// update the proxies list items
+function updateListProxies(el, orders) {
+  el.html("<li>" + orders[0] + "</li>");
+
+  for (var i = 1; i < orders.length; i++) {
+    el.append("<li>" + orders[i] + "</li>");
+  }
 }
