@@ -404,9 +404,6 @@ Storage Plan page
   text-align: center;
   margin-top: 40px;
 }
-.dot-progress .fas {
-  margin-right: 10px;
-}
 /*---- end of storage data usage section ----*/
 
 /* ----------------
@@ -576,9 +573,6 @@ Responsive
 
 /* tablet view :992px. */
 @media only screen and (max-width: 992px) {
-  .dot-progress {
-    margin-top: 0px;
-  }
   #data-usage h1 {
     font-size: 18px;
   }
