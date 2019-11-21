@@ -588,6 +588,20 @@ Support page
 }
 /*---- end of frequently asked question section ----*/
 
+/* ------------------
+Login & register page
+ -------------------*/
+#input-form {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+#input-form .bg-glob {
+  min-height: 550px;
+  background: url("../img/glob-home.png") no-repeat center;
+  background-size: contain;
+  padding-top: 140px;
+}
+
 /* ----------------
 Footer section
  -------------------*/
