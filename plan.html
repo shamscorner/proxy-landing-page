@@ -35,6 +35,7 @@
       }
       .bg-shade {
         min-height: 100%;
+        min-width: 100%;
         background: rgba(0, 18, 41, 0.9);
         padding-top: 20px;
         padding-bottom: 20px;
@@ -119,7 +120,13 @@
                 <p class="mb-4">
                   <small class="billed">Billed Monthly</small>
                 </p>
-                <button class="pricing-button-transparent">Purchase</button>
+                <button
+                  class="pricing-button-transparent"
+                  data-toggle="modal"
+                  data-target="#purchaseModal"
+                >
+                  Purchase
+                </button>
               </div>
             </div>
             <div class="col-md-4">
@@ -134,7 +141,11 @@
                 <p class="mb-4">
                   <small class="billed text-blue">Billed Monthly</small>
                 </p>
-                <button class="pricing-button pricing-button-current">
+                <button
+                  class="pricing-button pricing-button-current"
+                  data-toggle="modal"
+                  data-target="#purchaseModal"
+                >
                   Purchase
                 </button>
               </div>
@@ -147,10 +158,108 @@
                 <p id="pro-usage">10 Gigabytes / month</p>
                 <h1 class="mb-1 mt-4" id="pro-amount">$112</h1>
                 <p class="mb-4"><small class="billed">Billed Monthly</small></p>
-                <button class="pricing-button-transparent">Purchase</button>
+                <button
+                  class="pricing-button-transparent"
+                  data-toggle="modal"
+                  data-target="#purchaseModal"
+                >
+                  Purchase
+                </button>
               </div>
             </div>
           </div>
+          <!-- modal for confirming the purchase -->
+          <div
+            class="modal fade"
+            id="purchaseModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="confirmbody"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmbody">
+                    Are you sure you want to purchase?
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p id="cardonfile">
+                    Your card ending in
+                    <span id="last4" class="text-warning">1234</span> will be
+                    charged the full amount.
+                  </p>
+                  <button id="addCard" class="pricing-button">
+                    Add new card
+                  </button>
+                  <div id="card-element" class="mt-3">
+                    <div class="form-row">
+                      <div class="col-8">
+                        <label class="sr-only" for="inlineFormInputGroup"
+                          >Card Number</label
+                        >
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div
+                              class="input-group-text"
+                              style="background: transparent;"
+                            >
+                              <img
+                                src="img/stripe-element.png"
+                                alt=""
+                                width="30"
+                              />
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            id="inlineFormInputGroup"
+                            placeholder="Card Number"
+                          />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label class="sr-only" for="inlineFormInput">CVC</label>
+                        <input
+                          type="text"
+                          class="form-control form-control-sm mb-2"
+                          id="inlineFormInput"
+                          placeholder="MM/YY CVC"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    id="submitOrder"
+                  >
+                    Purchase
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end of modal for confirming the purchase-->
         </section>
         <!-- end of pricing section -->
 
@@ -199,5 +308,24 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        // hide the card initially
+        var card = $("#card-element");
+        card.hide();
+
+        // hide the card each time other pricing option selected
+        $(".pricing-button").click(function() {
+          card.hide();
+        });
+
+        // add the click listener
+        $("#addCard").click(function() {
+          // show the card
+          card.slideDown("fast");
+        });
+      });
+    </script>
   </body>
 </html>
