@@ -121,7 +121,7 @@
                   <small class="billed">Billed Monthly</small>
                 </p>
                 <button
-                  class="pricing-button-transparent"
+                  class="pricing-button-transparent card-hide"
                   data-toggle="modal"
                   data-target="#purchaseModal"
                 >
@@ -142,7 +142,7 @@
                   <small class="billed text-blue">Billed Monthly</small>
                 </p>
                 <button
-                  class="pricing-button pricing-button-current"
+                  class="pricing-button pricing-button-current card-hide"
                   data-toggle="modal"
                   data-target="#purchaseModal"
                 >
@@ -159,7 +159,7 @@
                 <h1 class="mb-1 mt-4" id="pro-amount">$112</h1>
                 <p class="mb-4"><small class="billed">Billed Monthly</small></p>
                 <button
-                  class="pricing-button-transparent"
+                  class="pricing-button-transparent card-hide"
                   data-toggle="modal"
                   data-target="#purchaseModal"
                 >
@@ -202,44 +202,7 @@
                     Add new card
                   </button>
                   <!-- card-element section -->
-                  <div id="card-element" class="mt-3">
-                    <div class="form-row">
-                      <div class="col-8">
-                        <label class="sr-only" for="inlineFormInputGroup"
-                          >Card Number</label
-                        >
-                        <div class="input-group mb-2">
-                          <div class="input-group-prepend">
-                            <div
-                              class="input-group-text"
-                              style="background: transparent;"
-                            >
-                              <img
-                                src="img/stripe-element.png"
-                                alt=""
-                                width="30"
-                              />
-                            </div>
-                          </div>
-                          <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            id="inlineFormInputGroup"
-                            placeholder="Card Number"
-                          />
-                        </div>
-                      </div>
-                      <div class="col">
-                        <label class="sr-only" for="inlineFormInput">CVC</label>
-                        <input
-                          type="text"
-                          class="form-control form-control-sm mb-2"
-                          id="inlineFormInput"
-                          placeholder="MM/YY CVC"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <div id="card-element" class="mt-3"></div>
                   <!-- end of card-element section -->
                 </div>
                 <div class="modal-footer">
@@ -314,22 +277,62 @@
     <script src="js/main.js"></script>
 
     <script>
+      // add the stripe element
+      const stripe = Stripe("pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj");
+      const elements = stripe.elements();
+      //Stripe card styles
+      const style = {
+        base: {
+          font: "MyriadPro-Regular",
+          color: "#FFF",
+          fontSmoothing: "none",
+          fontWeight: "550",
+          lineHeight: "40px",
+          padding: "24px",
+          fontSize: "14px",
+          "::placeholder": {
+            color: "#B3B3B3"
+          },
+          display: "none"
+        },
+        invalid: {
+          color: "#fa755a",
+          iconColor: "#fa755a"
+        }
+      };
+      const card = elements.create("card", { style: style });
+
       $(document).ready(function() {
         // hide the card initially
-        var card = $("#card-element");
-        card.hide();
+        var cardContainer = $("#card-element");
+        cardContainer.hide();
 
         // hide the card each time other pricing option selected
-        $(".pricing-button").click(function() {
-          card.hide();
+        $(".card-hide").click(function() {
+          cardContainer.hide();
         });
 
         // add the click listener
         $("#addCard").click(function() {
           // show the card
-          card.slideDown("fast");
+          cardContainer.show();
+
+          // configure the stripe box
+          configureStripeBox();
         });
       });
+
+      const configureStripeBox = () => {
+        card.mount("#card-element");
+        card.addEventListener("change", function(event) {
+          const displayError = document.getElementById("card-errors");
+          if (event.error) {
+            displayError.textContent = event.error.message;
+          } else {
+            displayError.textContent = "";
+          }
+        });
+      };
     </script>
   </body>
 </html>
