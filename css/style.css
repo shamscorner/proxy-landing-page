@@ -618,6 +618,12 @@ Login & register page
   background-size: contain;
   padding-top: 140px;
 }
+#signup-here a {
+  color: lightsalmon;
+}
+#signup-here a:hover {
+  color: white;
+}
 
 /* ----------------
 Dashboard page
