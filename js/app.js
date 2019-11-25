@@ -1,6 +1,6 @@
 const urlRoot = "/";
-const stripe = Stripe("");
-// const stripe = Stripe('');
+const stripe = Stripe('pk_test_QUV3pT2NBH7sxel9LmXcxEIW00NPyDUugo');
+// const stripe = Stripe('pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj');
 const elements = stripe.elements();
 addCardPresent = false;
 
@@ -13,7 +13,6 @@ const style = {
     fontWeight: "550",
     lineHeight: "40px",
     padding: "24px",
-    // backgroundColor: 'gray',
     fontSize: "14px",
     "::placeholder": {
       color: "#B3B3B3"
@@ -26,6 +25,38 @@ const style = {
   }
 };
 const card = elements.create("card", { style: style });
+
+$(document).ready(function () {
+  // hide the card initially
+  var cardContainer = $("#card-element");
+  cardContainer.hide();
+
+  // hide the card each time other pricing option selected
+  $(".card-hide").click(function () {
+    cardContainer.hide();
+  });
+
+  // add the click listener
+  $("#addCard").click(function () {
+    // show the card
+    cardContainer.show();
+
+    // configure the stripe box
+    configureStripeBox();
+  });
+});
+
+const configureStripeBox = () => {
+  card.mount("#card-element");
+  card.addEventListener("change", function (event) {
+    const displayError = document.getElementById("card-errors");
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = "";
+    }
+  });
+};
 
 // check if user is logged in, return true or false
 const checkLogin = () => {
@@ -55,6 +86,7 @@ function sleep(ms) {
 //Sends POST req to /processpayment to process a new order
 //@n is GB Limit.
 const processOrder = async n => {
+  console.log("Processing order for " + n)
   let url = urlRoot + "processpayment";
   let params = {
     gblimit: n
@@ -211,7 +243,11 @@ const getLastFour = async () => {
 const loadStock = async () => {
   let box1 = document.getElementById("price1"),
     box2 = document.getElementById("price2"),
-    box3 = document.getElementById("price3");
+    box3 = document.getElementById("price3"),
+    per1 = document.getElementById("per1"),
+    per2 = document.getElementById("per2"),
+    per3 = document.getElementById("per3");
+
 
   await fetch(urlRoot + "allstock")
     .then(response => response.json())
@@ -219,25 +255,39 @@ const loadStock = async () => {
       box1.innerHTML = "$" + data[0];
       box2.innerHTML = "$" + data[1];
       box3.innerHTML = "$" + data[2];
+      let pricePer = [];
+      let quantities = [2,5,10];
+      for (i in quantities) {
+        let price = parseFloat(data[i]) / quantities[i]
+        price = price.toFixed(2)
+        let num = parseInt(i)+1;
+        let str = "per" + num;
+        let per = document.getElementById(str);
+        per.innerHTML = "$" + price + " per GB"
+        pricePer.push(price)
+      }
     });
 
+
+
   if (await checkLogin()) {
-    lnkLogin.innerText = "Dashboard";
-    lnkSignup.innerHTML = "Log Out";
+
+    $('#lnkLogin').text("Dashboard");
+    $('#lnkSignup').text("Log Out");
+
     getLastFour();
   }
 
   //Start button is the
-  $(".purchaseButton").click(async function() {
+  $(".purchaseButton").click(async function () {
     if (!(await checkLogin())) {
       window.location.href = "/login.html";
     } else {
       let num = this.id;
-      num = num.substring(num.length - 1, num.length);
       let price = $("#price" + num)[0].innerHTML;
       price = price.substring(1);
       let quantity = $("#quantity" + num)[0].innerHTML;
-      quantity = quantity.substring(1, quantity.indexOf(" G")); //Strip the gigabtyes / year
+      quantity = quantity.substring(0, quantity.indexOf(" G")); //Strip the gigabtyes / year
       loadPurchaseModal(quantity, price);
     }
   });
@@ -246,16 +296,16 @@ const loadStock = async () => {
 const loadPurchaseModal = (quantity, price) => {
   $("#confirmbody").text(
     "Are you sure you want to purchase  " +
-      quantity +
-      " gigabytes for $" +
-      price +
-      "?"
+    quantity +
+    " gigabytes for $" +
+    price +
+    "?"
   );
   $("#ex1").modal({
     fadeDuration: 150
   });
 
-  $("#addCard").click(function() {
+  $("#addCard").click(function () {
     if (!addCardPresent) {
       configureStripeBox();
     } else {
@@ -263,23 +313,28 @@ const loadPurchaseModal = (quantity, price) => {
       addCardPresent = !addCardPresent;
     }
   });
+  $("#submitOrder").off();
+  $("#submitOrder").click(function() {
+    processOrder(quantity)
+  })
+
 };
 
-window.onload = function() {
+window.onload = function () {
   addListeners();
 };
-window.transitionToPage = function(href) {
+window.transitionToPage = function (href) {
   document.querySelector("body").style.opacity = 0;
-  setTimeout(function() {
+  setTimeout(function () {
     window.location.href = href;
   }, 500);
 };
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
   document.querySelector("body").style.opacity = 1;
 });
 
-$("#lnkLogin").click(async function() {
+$("#lnkLogin").click(async function () {
   if (await checkLogin()) {
     window.location.href = "/dashboard";
   } else {
@@ -287,7 +342,7 @@ $("#lnkLogin").click(async function() {
   }
 });
 
-$("#lnkSignup").click(async function() {
+$("#lnkSignup").click(async function () {
   if (!(await checkLogin())) {
     window.location.href = "/register.html";
   } else {
@@ -295,7 +350,7 @@ $("#lnkSignup").click(async function() {
   }
 });
 
-$(".logoutButton").click(function() {
+$(".logoutButton").click(function () {
   logout();
 });
 const loginPage = async () => {
@@ -303,7 +358,7 @@ const loginPage = async () => {
 };
 
 // fetch proxies from UserDashboard
-const getData = (order = 0) => {
+const getData = (order) => {
   return new Promise(async resolve => {
     await fetch(urlRoot + "UserDashboard")
       .then(response => response.json())
@@ -316,35 +371,42 @@ const getData = (order = 0) => {
               data["orders"][order].ordernum
             );
             setPossibleLocations(data["locations"]);
-            setProxOrderNumSpan(data["orders"][order].ordernum);
-
-            $(".generateButton").click(function() {
+            for (i in data["orders"]) {
+              setProxOrderNumSpan(data["orders"][i].ordernum, i);
+            }
+              console.log(data["orders"])
+            $(".generateButton").click(function () {
               generateProxies(data["orders"][order].ordernum);
             });
           }
         }
       });
+      //TODO: HIDE LOADER
     resolve();
   });
 };
 
-const setProxOrderNumSpan = proxOrderNum =>
-  (document.getElementById("ordernumber").innerHTML = "Order: " + proxOrderNum);
+const setProxOrderNumSpan = (proxOrderNum, orderNumberIndex) => 
+  ($('#selectOrder').append(`<option id = "${orderNumberIndex}" value="${proxOrderNum}"> 
+    ${proxOrderNum} 
+  </option>`));
+
 /*
 Show all the DOM elements neccesary for having at least 1 order
 */
 const ordersExistShowDOM = async n => {
-  $(".generate").text("Generate");
+  console.log("hi")
+  // $("#generate").text("Generate");
   $("#firstRowProxyTable").text("No proxies have been generated.");
-  $(".header").text("Generated Proxies (" + n + ")");
-  $(".formLocation").show();
-  $(".Quantity").show();
-  $(".formName").show();
-  $(".generateButton").show();
-  $(".upgradeButton").text("Upgrade Storage");
+  $("#generate").text("Generated Proxies (" + n + ")");
+  $(".leftside").show();
+  // $("#leftside").show();
+  $("#circular-progressbar").show();
+  // $(".generateB/utton").show();
+  // $(".upgradeButton").text("Upgrade Storage");
 };
 
-$(".upgradeButton").click(function() {
+$(".upgradeButton").click(function () {
   //TODO: move this to new page
   // processOrder(1)
 });
@@ -354,12 +416,12 @@ Makes POST req to /createproxies with the
 {number,location,ordernum}
 */
 const generateProxies = async ordernum => {
-  var locBox = document.getElementById("gen-quant"),
-    numberBox = document.getElementById("Quantity"),
-    quantity = numberBox.value,
-    location = locBox.innerHTML;
+  var location = $("#inputLocation option:selected" ).text();
+    quantity =$("#inputQuantity").val()
+    console.log(location)
 
-  if (quantity == undefined || quantity == "") {
+
+  if (quantity == "" ) {
     return (numberBox.style.borderColor = "red");
   }
 
@@ -385,16 +447,15 @@ const generateProxies = async ordernum => {
 
 const dashLoad = async () => {
   let auth = await checkLogin();
+  //TODO: SHOW LOADER
 
-  //TODO: THIS IS USUALLY NOT HERE BUT SINCE THERE IS NO BACKEND, USE THIS TO VIEW DASHBOARD
-  ordersExistShowDOM(0);
-  // loadDom()
-  //     if (auth) loadDom();
-  //     else window.location.href = "/login.html"
+  if (auth) loadDom();
+  else window.location.href = "/login.html"
 };
 // load dom elements in dashboard
-const loadDom = async () => {
-  await getData();
+//orderSelectIndex is the index of the selected order to load dashboard for. Taken from dropdown
+const loadDom = async (orderSelectIndex = 0) => {
+  await getData(orderSelectIndex);
 };
 
 // set proxy list
@@ -409,10 +470,10 @@ const setProxies = (status, proxies, ordernum) => {
     li.appendChild(p);
 
     p.innerHTML =
-      "Thank you for waiting. If your order has been processing for an extended amount of time, please contact support.";
+      "If your order has been processing for an extended amount of time, please contact support. Thank you.";
     $(".upgradeButton").text("Upgrade Storage");
 
-    $(".generate").text("Processing");
+    $("#generate").text("Order Processing");
     return proxList.appendChild(li);
   }
   let b = document.createElement("button");
@@ -420,50 +481,53 @@ const setProxies = (status, proxies, ordernum) => {
   //Only update table if we have proxies
   if (proxies.length > 1) {
     //Start from -1 for style reasons
-    for (j = -1; j < proxies.length; j++) {
+    for (j = 0; j < proxies.length; j++) {
       let li = document.createElement("li");
       let p = document.createElement("p");
       let hr = document.createElement("hr");
 
+
       li.appendChild(p);
+      p.innerHTML = proxies[j];
 
-      //Copy all button
-      if (j == -1) {
-        let b = document.createElement("button");
-        let b2 = document.createElement("button");
-        b.style.bottom = "25px";
-        b2.style.bottom = "75px";
-        b2.style.color = "#C5170E";
-
-        b.innerHTML = "Copy All";
-        b2.innerHTML = "Delete All";
-
-        b.className = "copyAll";
-        b2.className = "deleteAll";
-
-        li.appendChild(b);
-        li.appendChild(b2);
-
-        //Add and pad
-        proxList.appendChild(li);
-        proxList.appendChild(hr);
-        proxList.appendChild(hr);
-        proxList.appendChild(hr);
-      } else {
-        p.innerHTML = proxies[j];
-
-        proxList.appendChild(li);
-        proxList.appendChild(hr);
-      }
-
+      proxList.appendChild(li);
+      proxList.appendChild(hr);
       arrProxies.push(proxies[j]);
     }
-    $(".copyAll").click(function() {
+    //Copy all button
+    // if (j == -1) {
+    // let b = document.createElement("button");
+    // let b2 = document.createElement("button");
+    // b.style.bottom = "25px";
+    // b2.style.bottom = "75px";
+    // b2.style.color = "#C5170E";
+
+    // b.innerHTML = "Copy All";
+    // b2.innerHTML = "Delete All";
+
+    // b.className = "copyAll";
+    // b2.className = "deleteAll";
+
+    // li.appendChild(b);
+    // li.appendChild(b2);
+
+    // //Add and pad
+    // proxList.appendChild(li);
+    // proxList.appendChild(hr);
+    // proxList.appendChild(hr);
+    // proxList.appendChild(hr);
+    // } else {
+
+    // }    }
+    $("#copyAll").click(function () {
       copyAllProxies(proxies);
     });
-    $(".deleteAll").click(function() {
+    $("#deleteAll").click(function () {
       deleteAllProxies(ordernum);
     });
+    $('#copyAll').show();
+    $('#deleteAll').show();
+
   } else {
     let li = document.createElement("li");
     let p = document.createElement("p");
@@ -514,7 +578,7 @@ const deleteAllProxies = async ordernum => {
 
 // set locations dropdown
 const setPossibleLocations = locations => {
-  const locationDropdown = document.getElementById("locationOptions");
+  const locationDropdown = document.getElementById("inputLocation");
   locationDropdown.innerHTML = "Loading...";
   locationItems = [];
   if (locations.length == 0) {
@@ -526,103 +590,29 @@ const setPossibleLocations = locations => {
     let li = document.createElement("option");
     li.value = j;
     li.innerHTML = locations[j];
+    
 
     locationDropdown.appendChild(li);
   }
 
-  renderDropdown();
+  // renderDropdown();
 };
 
-const renderDropdown = () => {
-  var x, i, j, selElmnt, a, b, c;
-  /* Look for any elements with the class "custom-select": */
-  x = document.getElementsByClassName("custom-select");
-  for (i = 0; i < x.length; i++) {
-    selElmnt = x[i].getElementsByTagName("select")[0];
-    /* For each element, create a new DIV that will act as the selected item: */
-    a = document.createElement("DIV");
-    a.setAttribute("class", "select-selected");
-    a.setAttribute("id", "gen-quant");
-
-    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-    x[i].appendChild(a);
-    /* For each element, create a new DIV that will contain the option list: */
-    b = document.createElement("DIV");
-    b.setAttribute("class", "select-items select-hide");
-    for (j = 0; j < selElmnt.length; j++) {
-      /* For each option in the original select element,
-            create a new DIV that will act as an option item: */
-      c = document.createElement("DIV");
-      c.innerHTML = selElmnt.options[j].innerHTML;
-      c.addEventListener("click", function(e) {
-        /* When an item is clicked, update the original select box,
-                and the selected item: */
-        var y, i, k, s, h;
-        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-        h = this.parentNode.previousSibling;
-        for (i = 0; i < s.length; i++) {
-          if (s.options[i].innerHTML == this.innerHTML) {
-            s.selectedIndex = i;
-            h.innerHTML = this.innerHTML;
-            y = this.parentNode.getElementsByClassName("same-as-selected");
-            for (k = 0; k < y.length; k++) {
-              y[k].removeAttribute("class");
-            }
-            this.setAttribute("class", "same-as-selected");
-            break;
-          }
+const loadProfilePage = async () => {
+  if (await checkLogin()) {
+    await fetch(urlRoot + "profile")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        $("#name").text(data['name'])
+        $("#email").text(data['email'])
+        if (data['lastFour']) {
+          $("#lastfour").attr("placeholder", "**** **** **** " + data['lastFour'])
         }
-        h.click();
-      });
-      b.appendChild(c);
-    }
-    x[i].appendChild(b);
-    a.addEventListener("click", function(e) {
-      /* When the select box is clicked, close any other select boxes,
-            and open/close the current select box: */
-      e.stopPropagation();
-      closeAllSelect(this);
-      this.nextSibling.classList.toggle("select-hide");
-      this.classList.toggle("select-arrow-active");
+
     });
-  }
-};
-function closeAllSelect(elmnt) {
-  /* A function that will close all select boxes in the document,
-    except the current select box: */
-  var x,
-    y,
-    i,
-    arrNo = [];
-  x = document.getElementsByClassName("select-items");
-  y = document.getElementsByClassName("select-selected");
-  for (i = 0; i < y.length; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i);
-    } else {
-      y[i].classList.remove("select-arrow-active");
-    }
-  }
-  for (i = 0; i < x.length; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add("select-hide");
-    }
+  } else {
+    window.location.href = "/login.html";
   }
 }
 
-/* If the user clicks anywhere outside the select box,
-then close all select boxes: */
-document.addEventListener("click", closeAllSelect);
-
-const configureStripeBox = () => {
-  card.mount("#card-element");
-  addCardPresent = true;
-  card.addEventListener("change", function(event) {
-    const displayError = document.getElementById("card-errors");
-    if (event.error) {
-      displayError.textContent = event.error.message;
-    } else {
-      displayError.textContent = "";
-    }
-  });
-};

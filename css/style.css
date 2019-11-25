@@ -361,6 +361,9 @@ Storage Plan page
  -------------------*/
 
 /*---- header section ----*/
+a#lnkSignup, a#lnkLogin {
+  cursor: pointer;
+}
 .header-title {
   margin-top: 1px;
 }
@@ -780,3 +783,8 @@ Responsive
     font-size: 15px;
   }
 }
+
+ .leftside {
+  display: none;
+}
+

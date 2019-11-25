@@ -64,44 +64,132 @@
       </header>
       <!-- end of Header section -->
 
-      <!-- pricing section -->
-      <section id="storage-pricing">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="pricing-card">
-              <h5 class="mt-2">STARTER</h5>
-              <hr />
-              <p>25 Gigabytes / year</p>
-              <h1 class="mb-1 mt-4">$250</h1>
-              <p class="mb-4"><small>Billed Annually</small></p>
-              <button class="pricing-button">Upgrade</button>
+     
+        <!-- pricing section -->
+        <section id="storage-pricing">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="pricing-card-transparent">
+                  <p class="mb-4 invisible"><small>RECOMMENDED</small></p>
+                  <h5 class="mt-2">STARTER</h5>
+                  <hr />
+                  <p id="quantity1">2 GB Included<br><span id = "per1">$16 per GB</span></p>
+                  <h1 class="mb-1 mt-4" id="price1">$1000</h1>
+                  <p class="mb-4">
+                  </p>
+                  <button
+                    class="pricing-button-transparent card-hide purchaseButton"
+                    data-toggle="modal"
+                    data-target="#purchaseModal"
+                    id = "1"
+                  >
+                    Purchase
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="pricing-card-transparent pricing-card-current-transparent"
+                >
+                <p class="mb-4"><small class="text-blue">MOST POPULAR</small></p>
+                  <h5 class="mt-2">GROWTH</h5>
+                  <hr />
+                  <p id="quantity2">5 GB Included<br><span id = "per2">$13.60 per GB</span></p>
+                  <h1 class="mb-1 mt-4" id="price2">$1000</h1>
+                  <p class="mb-4">
+                  </p>
+                  <button
+                    class="pricing-button pricing-button-current card-hide purchaseButton"
+                    data-toggle="modal"
+                    id = "2"
+                    data-target="#purchaseModal"
+                  >
+                    Purchase
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="pricing-card-transparent">
+                  <p class="mb-4 invisible"><small>RECOMMENDED</small></p>
+                  <h5 class="mt-2">PRO</h5>
+                  <hr />
+                  <p id="quantity3">10 GB Included<br><span id = "per3">$11.20 per GB</span></p>
+                  <h1 class="mb-1 mt-4" id="price3">$1000</h1>
+                  <p class="mb-4">
+                    </p>
+                  <button
+                    class="pricing-button-transparent card-hide purchaseButton"
+                    id = "3"
+                    data-toggle="modal"
+                    data-target="#purchaseModal"
+                  >
+                    Purchase
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="pricing-card pricing-card-current">
-              <h5 class="mt-2">GROWTH</h5>
-              <hr />
-              <p>50 Gigabytes</p>
-              <h1 class="mb-1 mt-4">$435</h1>
-              <p class="mb-4"><small>Billed Annually</small></p>
-              <button class="pricing-button pricing-button-current">
-                Current Plan
-              </button>
+            <!-- modal for confirming the purchase -->
+            <div
+              class="modal fade"
+              id="purchaseModal"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="confirmbody"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-left" id="confirmbody">
+                      Are you sure you want to purchase
+                      <span id = "quantity" >5</span> gigabytes for
+                      <span id = "price" >$68</span>?
+                    </h4>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p id="cardonfile">
+                      Your card ending in
+                      <span id="last4" class="text-warning">1234</span> will be
+                      charged the full amount.
+                    </p>
+                    <button id="addCard" class="pricing-button">
+                      Add new card
+                    </button>
+                    <!-- card-element section -->
+                    <div id="card-element" class="mt-3"></div>
+                    <!-- end of card-element section -->
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-outline-dark"
+                      data-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                      id="submitOrder"
+                    >
+                      Purchase
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="pricing-card">
-              <h5 class="mt-2">PRO</h5>
-              <hr />
-              <p>100 Gigabytes / year</p>
-              <h1 class="mb-1 mt-4">$590</h1>
-              <p class="mb-4"><small>Billed Annually</small></p>
-              <button class="pricing-button">Upgrade</button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- end of pricing section -->
+            <!-- end of modal for confirming the purchase-->
+          </section>
+          <!-- end of pricing section -->
+  
 
       <!-- data usage section -->
       <section id="data-usage">
@@ -147,6 +235,12 @@
     <!--====== Javascripts & Jquery ======-->
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+    loadStock()</script>
+
   </body>
 </html>

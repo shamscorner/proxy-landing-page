@@ -75,12 +75,12 @@
         <section id="profile-info">
           <div class="row">
             <div class="col-md-8 offset-md-2 bg-glob">
-              <h2>Jimmy Robins</h2>
-              <p>Jimmy.robins@gmail.com</p>
+              <h2 id = "name">Jimmy Robins</h2>
+              <p id = "email">Jimmy.robins@gmail.com</p>
               <div class="form-section">
                 <img src="img/stripe-element.png" alt="" width="40" />
                 <span class="input-divider">|</span>
-                <input type="text" placeholder="**** **** **** 9847" />
+                <input type="text" placeholder="**** **** **** ****" id = "lastfour" />
                 <button>Edit</button>
               </div>
               <button class="btn-big">Change Password</button>
@@ -94,6 +94,13 @@
     <!--====== Javascripts & Jquery ======-->
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+    loadProfilePage()
+    </script>
+
   </body>
 </html>
