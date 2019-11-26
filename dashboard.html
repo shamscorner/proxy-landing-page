@@ -46,7 +46,7 @@
     <!-- end of Page Preloader -->
 
     <!-- circular progressbar for the storage meter -->
-    <div id="circular-progressbar">
+    <div id="circular-progressbar" style="display: none;">
       <div class="round" data-value="0.87" data-size="100" data-thickness="5">
         <strong></strong>
         <p>GB</p>
@@ -78,21 +78,14 @@
       <!-- dashboard body -->
       <section id="dashboard-body">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 leftside">
             <h3>Generate</h3>
             <hr class="divider" />
-            <form>
+            <form id = "genform">
               <div class="form-group">
                 <label for="inputLocation">Location</label>
                 <select class="form-control" id="inputLocation">
-                  <option>USA</option>
-                  <option>Canada</option>
-                  <option>GB</option>
-                  <option>New York</option>
-                  <option>Los Angeles</option>
-                  <option>Chicago</option>
-                  <option>Houston</option>
-                  <option>Miami</option>
+  
                 </select>
               </div>
               <div class="form-group">
@@ -105,7 +98,7 @@
                   placeholder="# of Proxies"
                 />
               </div>
-              <button class="w-100 btn-big-100 mt-4">Generate</button>
+              <button class="w-100 btn-big-100 mt-4 generateButton" >Generate</button>
             </form>
             <a
               href="storage-plan.html"
@@ -116,118 +109,30 @@
               <i class="fas fa-external-link-alt"></i> &nbsp;LOGOUT
             </p>
           </div>
-          <div class="col-md-8">
-            <h3>Generated Proxies (562)</h3>
+          <div class="col-md">
+            <h3 id = "generate">No Orders</h3>
             <div class="mb-2 mt-4 text-right">
               <!-- select order -->
               <div id="selectOrderBox">
-                <!--<span class="text-muted">Order &nbsp;</span>-->
+                <span class="text-muted">Order &nbsp;</span>
                 <div class="form-group d-inline-block">
                   <select class="form-control form-control-sm" id="selectOrder">
-                    <option selected="true" disabled="disabled">Order</option>
-                    <option>0676-3677-5244</option>
-                    <option>0676-3677-5998</option>
-                    <option>0676-3677-4651</option>
                   </select>
                 </div>
               </div>
               <!-- end of select order -->
-              <button class="btn btn-outline-danger btn-sm">Delete All</button>
-              <button class="btn btn-outline-info btn-sm">Copy All</button>
+              <button id = "deleteAll" class="btn btn-outline-danger btn-sm" style = "display: none;">Delete All</button>
+              <button id = "copyAll" class="btn btn-outline-info btn-sm" style = "display: none;">Copy All</button>
             </div>
             <div>
               <!-- see in the main.js to populate the list items from the order section -->
-              <ul class="list-proxies">
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
-                <li>
-                  95.216.63.238:10001:aoxt6o:tgthyi
-                </li>
+              <ul class="list-proxies" id = "pstProxies">
+                      Please purchase a plan to continue.
+                      <a
+                      href="storage-plan.html"
+                      class="mt-5 d-block btn-big-100 text-center"
+                      >Select Plan</a
+                    >
               </ul>
             </div>
           </div>
@@ -246,9 +151,16 @@
     </div>
 
     <!--====== Javascripts & Jquery ======-->
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/circle-progress.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        dashLoad()
+    </script>
+
   </body>
 </html>

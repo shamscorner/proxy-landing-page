@@ -82,19 +82,16 @@
                 <li class="nav-item">
                   <a class="nav-link" href="support.html">Support</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="dashboard.html">Dashboard</a>
-                </li>
               </ul>
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="login.html">Login</a>
+                  <a class="nav-link" href="login.html" id = "lnkLogin">Login</a>
                 </li>
                 <li class="nav-item">
                   <a
                     class="nav-link"
-                    href="register.html"
                     style="color: #00baff;"
+                    id = "lnkSignup"
                     >Sign Up</a
                   >
                 </li>
@@ -106,7 +103,7 @@
 
         <!-- intro section -->
         <section id="intro-main" class="text-center">
-          <h3>Choose Any Plan!</h3>
+          <h3>Choose Any Monthly Plan!</h3>
         </section>
         <!-- end of intro section -->
 
@@ -118,15 +115,15 @@
                 <p class="mb-4 invisible"><small>RECOMMENDED</small></p>
                 <h5 class="mt-2">STARTER</h5>
                 <hr />
-                <p id="starter-usage">2 Gigabytes / month</p>
-                <h1 class="mb-1 mt-4" id="starter-amount">$32</h1>
+                <p id="quantity1">2 GB Included<br><span id = "per1">$16.00 per GB</span></p>
+                <h1 class="mb-1 mt-4" id="price1">$1000</h1>
                 <p class="mb-4">
-                  <small class="billed">Billed Monthly</small>
                 </p>
                 <button
-                  class="pricing-button-transparent card-hide"
+                  class="pricing-button-transparent card-hide purchaseButton"
                   data-toggle="modal"
                   data-target="#purchaseModal"
+                  id = "1"
                 >
                   Purchase
                 </button>
@@ -136,17 +133,17 @@
               <div
                 class="pricing-card-transparent pricing-card-current-transparent"
               >
-                <p class="mb-4"><small class="text-blue">RECOMMENDED</small></p>
+                <p class="mb-4"><small class="text-blue">MOST POPULAR</small></p>
                 <h5 class="mt-2">GROWTH</h5>
                 <hr />
-                <p id="growth-usage">5 Gigabytes / month</p>
-                <h1 class="mb-1 mt-4" id="growth-amount">$68</h1>
+                <p id="quantity2">5 GB Included<br><span id = "per2">$13.60 per GB</span></p>
+                <h1 class="mb-1 mt-4" id="price2">$1000</h1>
                 <p class="mb-4">
-                  <small class="billed text-blue">Billed Monthly</small>
                 </p>
                 <button
-                  class="pricing-button pricing-button-current card-hide"
+                  class="pricing-button pricing-button-current card-hide purchaseButton"
                   data-toggle="modal"
+                  id = "2"
                   data-target="#purchaseModal"
                 >
                   Purchase
@@ -158,11 +155,13 @@
                 <p class="mb-4 invisible"><small>RECOMMENDED</small></p>
                 <h5 class="mt-2">PRO</h5>
                 <hr />
-                <p id="pro-usage">10 Gigabytes / month</p>
-                <h1 class="mb-1 mt-4" id="pro-amount">$112</h1>
-                <p class="mb-4"><small class="billed">Billed Monthly</small></p>
+                <p id="quantity3">10 GB Included<br><span id = "per3">$12.20 per GB</span></p>
+                <h1 class="mb-1 mt-4" id="price3">$1000</h1>
+                <p class="mb-4">
+                  </p>
                 <button
-                  class="pricing-button-transparent card-hide"
+                  class="pricing-button-transparent card-hide purchaseButton"
+                  id = "3"
                   data-toggle="modal"
                   data-target="#purchaseModal"
                 >
@@ -185,8 +184,8 @@
                 <div class="modal-header">
                   <h4 class="modal-title text-left" id="confirmbody">
                     Are you sure you want to purchase
-                    <span class="text-blue">5</span> gigabytes for
-                    <span class="text-blue">$68</span>?
+                    <span id = "quantity" >5</span> gigabytes for
+                    <span id = "price" >$68</span>?
                   </h4>
                   <button
                     type="button"
@@ -240,7 +239,7 @@
           <div class="row">
             <div class="col-md-4">
               <ul>
-                <li>50 Gigabytes Usage</li>
+                <li>Full Gigabytes Usage</li>
                 <li>Intelligent IPs</li>
                 <li>No Setup Fees</li>
               </ul>
@@ -280,64 +279,11 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script src="js/main.js"></script>
-
+    <script src="js/app.js"></script>
     <script>
-      // add the stripe element
-      const stripe = Stripe("pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj");
-      const elements = stripe.elements();
-      //Stripe card styles
-      const style = {
-        base: {
-          font: "MyriadPro-Regular",
-          color: "#FFF",
-          fontSmoothing: "none",
-          fontWeight: "550",
-          lineHeight: "40px",
-          padding: "24px",
-          fontSize: "14px",
-          "::placeholder": {
-            color: "#B3B3B3"
-          },
-          display: "none"
-        },
-        invalid: {
-          color: "#fa755a",
-          iconColor: "#fa755a"
-        }
-      };
-      const card = elements.create("card", { style: style });
+            loadStock();
+     </script>
 
-      $(document).ready(function() {
-        // hide the card initially
-        var cardContainer = $("#card-element");
-        cardContainer.hide();
-
-        // hide the card each time other pricing option selected
-        $(".card-hide").click(function() {
-          cardContainer.hide();
-        });
-
-        // add the click listener
-        $("#addCard").click(function() {
-          // show the card
-          cardContainer.show();
-
-          // configure the stripe box
-          configureStripeBox();
-        });
-      });
-
-      const configureStripeBox = () => {
-        card.mount("#card-element");
-        card.addEventListener("change", function(event) {
-          const displayError = document.getElementById("card-errors");
-          if (event.error) {
-            displayError.textContent = event.error.message;
-          } else {
-            displayError.textContent = "";
-          }
-        });
-      };
-    </script>
+ 
   </body>
 </html>

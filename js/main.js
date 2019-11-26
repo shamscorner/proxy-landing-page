@@ -33,7 +33,9 @@ $(window).on("load", function() {
     //alert("selected order: " + selectedOrder);
 
     // get the proxies list
-    updateListProxies($(".list-proxies"), ["a", "b", "c"]);
+    // updateListProxies($(".list-proxies"), ["a", "b", "c"]);
+    console.log($(this).children("option:selected").attr('id'))
+    loadDom($(this).children("option:selected").attr('id'))
   });
 })(jQuery);
 
