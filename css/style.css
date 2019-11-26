@@ -166,6 +166,7 @@ input.form-control:focus {
   background: #001229;
   z-index: 1;
   border-radius: 50%;
+  /* display: none; */
 }
 #circular-progressbar .round {
   position: relative;
@@ -633,8 +634,13 @@ Dashboard page
  -------------------*/
 #selectOrderBox {
   position: absolute;
-  display: inline-block;
+  display: none;
+  /* margin-bottom: 0px; */
   left: 20px;
+}
+
+#orderBoxForm {
+  margin-bottom: 50px;
 }
 
 /* ----------------

@@ -3,7 +3,8 @@ const stripe = Stripe('pk_test_QUV3pT2NBH7sxel9LmXcxEIW00NPyDUugo');
 // const stripe = Stripe('pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj');
 const elements = stripe.elements();
 addCardPresent = false;
-
+loaded = false;
+var renewableOrderNumber;
 //Stripe card styles
 const style = {
   base: {
@@ -85,12 +86,20 @@ function sleep(ms) {
 
 //Sends POST req to /processpayment to process a new order
 //@n is GB Limit.
-const processOrder = async n => {
+const processOrder = async (n) => {
   console.log("Processing order for " + n)
   let url = urlRoot + "processpayment";
   let params = {
     gblimit: n
   };
+  if (renewableOrderNumber) {
+     params = {
+      gblimit: n,
+      orderNumber: renewableOrderNumber
+    };
+    url = urlRoot + "extend"
+  }
+  console.log(params)
   await fetch(url, {
     method: "POST",
     headers: {
@@ -194,7 +203,7 @@ const loginSubmit = async e => {
   }).then(response => {
     if (response.status != 200)
       loginErrors.innerHTML = "Invalid Username and/or Password";
-    else window.location.href = "/dashboard";
+    else history.back();
   });
 };
 
@@ -221,6 +230,8 @@ const indLoad = async () => {
     lnkLogin.innerText = "Dashboard";
     lnkSignup.innerHTML = "Log Out";
   }
+  hideLoader()
+
 };
 
 /*
@@ -256,11 +267,11 @@ const loadStock = async () => {
       box2.innerHTML = "$" + data[1];
       box3.innerHTML = "$" + data[2];
       let pricePer = [];
-      let quantities = [2,5,10];
+      let quantities = [2, 5, 10];
       for (i in quantities) {
         let price = parseFloat(data[i]) / quantities[i]
         price = price.toFixed(2)
-        let num = parseInt(i)+1;
+        let num = parseInt(i) + 1;
         let str = "per" + num;
         let per = document.getElementById(str);
         per.innerHTML = "$" + price + " per GB"
@@ -291,6 +302,9 @@ const loadStock = async () => {
       loadPurchaseModal(quantity, price);
     }
   });
+
+  hideLoader()
+
 };
 
 const loadPurchaseModal = (quantity, price) => {
@@ -314,7 +328,7 @@ const loadPurchaseModal = (quantity, price) => {
     }
   });
   $("#submitOrder").off();
-  $("#submitOrder").click(function() {
+  $("#submitOrder").click(function () {
     processOrder(quantity)
   })
 
@@ -357,36 +371,67 @@ const loginPage = async () => {
   // login = await checkLogin()
 };
 
+
+var dashData;
+
 // fetch proxies from UserDashboard
 const getData = (order) => {
   return new Promise(async resolve => {
     await fetch(urlRoot + "UserDashboard")
       .then(response => response.json())
       .then(data => {
-        if (data) {
-          if (data["orders"][order] != undefined) {
-            setProxies(
-              data["orders"][order].status,
-              data["orders"][order].proxies,
-              data["orders"][order].ordernum
-            );
-            setPossibleLocations(data["locations"]);
-            for (i in data["orders"]) {
-              setProxOrderNumSpan(data["orders"][i].ordernum, i);
-            }
-              console.log(data["orders"])
-            $(".generateButton").click(function () {
-              generateProxies(data["orders"][order].ordernum);
-            });
-          }
+        dashData = data;
+        parseDashboardRawData(data,order)
+        for (i in data["orders"]) {
+          setProxOrderNumSpan(data["orders"][i].ordernum, i);
         }
+        setPossibleLocations(data["locations"]);
+
       });
-      //TODO: HIDE LOADER
+    //TODO: HIDE LOADER
+    loaded = true;
+    hideLoader()
     resolve();
   });
 };
 
-const setProxOrderNumSpan = (proxOrderNum, orderNumberIndex) => 
+
+const setMeterAndQueryTags = (used, total, ordernumber) => {
+  console.log("Sending " + ordernumber)
+  console.log(used)
+  if (used == undefined) {
+    used = 0;
+  }
+    used = used / total;
+    $("#circular-progressbar").show();
+    $(".round").attr("data-value", used)
+    Circle(".round", used);
+    var url = "storage-plan.html?used=" + used + "&total=" + total + "&ordernumber=" + ordernumber;
+    console.log(url)
+    $("#upgradeBtn").attr("href",url)
+
+
+}
+
+const parseDashboardRawData = (data,order) => {
+  if (data) {
+    if (data["orders"][order] != undefined) {
+      setProxies(
+        data["orders"][order].status,
+        data["orders"][order].proxies,
+        data["orders"][order].ordernum
+      );
+      $("#selectOrderBox").css("display", "inline-block")
+      console.log(data["orders"][order])
+      setMeterAndQueryTags(data["orders"][order].used, data["orders"][order].gblimit, data["orders"][order].ordernum)
+        $(".generateButton").click(function () {
+          console.log("here")
+        generateProxies(data["orders"][order].ordernum);
+      });
+    }
+  }
+}
+const setProxOrderNumSpan = (proxOrderNum, orderNumberIndex) =>
   ($('#selectOrder').append(`<option id = "${orderNumberIndex}" value="${proxOrderNum}"> 
     ${proxOrderNum} 
   </option>`));
@@ -395,33 +440,24 @@ const setProxOrderNumSpan = (proxOrderNum, orderNumberIndex) =>
 Show all the DOM elements neccesary for having at least 1 order
 */
 const ordersExistShowDOM = async n => {
-  console.log("hi")
-  // $("#generate").text("Generate");
   $("#firstRowProxyTable").text("No proxies have been generated.");
   $("#generate").text("Generated Proxies (" + n + ")");
   $(".leftside").show();
-  // $("#leftside").show();
-  $("#circular-progressbar").show();
-  // $(".generateB/utton").show();
-  // $(".upgradeButton").text("Upgrade Storage");
+
 };
 
-$(".upgradeButton").click(function () {
-  //TODO: move this to new page
-  // processOrder(1)
-});
 /*
 Generate Proxies from the user dashboard. 
 Makes POST req to /createproxies with the
 {number,location,ordernum}
 */
 const generateProxies = async ordernum => {
-  var location = $("#inputLocation option:selected" ).text();
-    quantity =$("#inputQuantity").val()
-    console.log(location)
+  var location = $("#inputLocation option:selected").text();
+  quantity = $("#inputQuantity").val()
+  console.log(location)
 
 
-  if (quantity == "" ) {
+  if (quantity == "") {
     return (numberBox.style.borderColor = "red");
   }
 
@@ -445,6 +481,17 @@ const generateProxies = async ordernum => {
   });
 };
 
+
+const storagePageLoaded = async () => {
+  let auth = await checkLogin();
+  //TODO: SHOW LOADER
+
+  if (!auth)
+    window.location.href = "/login.html";
+  loadStock();
+  loadUpgradeStorage();
+};
+
 const dashLoad = async () => {
   let auth = await checkLogin();
   //TODO: SHOW LOADER
@@ -452,10 +499,17 @@ const dashLoad = async () => {
   if (auth) loadDom();
   else window.location.href = "/login.html"
 };
+
+
 // load dom elements in dashboard
 //orderSelectIndex is the index of the selected order to load dashboard for. Taken from dropdown
 const loadDom = async (orderSelectIndex = 0) => {
-  await getData(orderSelectIndex);
+  if (dashData == undefined) {
+      getData(orderSelectIndex);
+  } else {
+    console.log("Index " + orderSelectIndex)
+    parseDashboardRawData(dashData,orderSelectIndex)
+  }
 };
 
 // set proxy list
@@ -474,7 +528,13 @@ const setProxies = (status, proxies, ordernum) => {
     $(".upgradeButton").text("Upgrade Storage");
 
     $("#generate").text("Order Processing");
+    // $(".leftside").css("border", "1px solid gray");
+    grayOutBoxes()
+
+
     return proxList.appendChild(li);
+  } else {
+      undoGrayOutBoxes()
   }
   let b = document.createElement("button");
 
@@ -590,7 +650,7 @@ const setPossibleLocations = locations => {
     let li = document.createElement("option");
     li.value = j;
     li.innerHTML = locations[j];
-    
+
 
     locationDropdown.appendChild(li);
   }
@@ -601,18 +661,120 @@ const setPossibleLocations = locations => {
 const loadProfilePage = async () => {
   if (await checkLogin()) {
     await fetch(urlRoot + "profile")
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         console.log(data)
         $("#name").text(data['name'])
         $("#email").text(data['email'])
         if (data['lastFour']) {
           $("#lastfour").attr("placeholder", "**** **** **** " + data['lastFour'])
         }
+        hideLoader()
 
-    });
+      });
   } else {
     window.location.href = "/login.html";
   }
 }
 
+
+
+const storagePlanMeter = (percentage, capacity) => {
+  let amountUsed = capacity * percentage;
+  amountUsed = amountUsed.toFixed(1);
+  document.getElementById("amt").innerHTML = `` + amountUsed + ` <span class="text-sm">GB</span>`
+  document.getElementById("capacity").innerHTML = `` + capacity + ` <span class="text-sm">GB</span>`
+
+  let totalDots = 12;
+  let rounded = Math.round(percentage*totalDots);
+  console.log(rounded)
+  for (var i = 0; i < rounded; i++) {
+    $(".dot-progress").append(`<div class="col-1"><i class="fas fa-circle text-blue"></i></div>`)
+  }
+  while (i < totalDots) {
+    $(".dot-progress").append(`<div class="col-1"><i class="fas fa-circle text-gray"></i></div>`)
+    i++;
+  }
+
+}
+
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+const loadUpgradeStorage = () => {
+    var used = getParameterByName('used'); // "lorem"
+    var total = getParameterByName('total'); // "" (present with empty value)
+    var ordernumber = getParameterByName('ordernumber'); // "" (present with no value)
+    if (used && total && ordernumber) {
+      storagePlanMeter((used/total), total)
+      renewableOrderNumber = ordernumber;
+      console.log("Turning off")
+        //Start button is the
+        // $("#submitOrder").unbind();
+        // $("#submitOrder").click(function () {
+        //   console.log(ordernumber)
+        //   processOrder(quantity, ordernumber)
+        // })
+
+    } else {
+      $('#meter').hide()
+    }
+   
+}
+
+const grayOutBoxes = () => {
+  $(".form-control").css("color", "gray");
+  $(".form-group").css("color", "gray");
+  $(".inputQuantity").css("color", "gray");
+  $(".inputQuantity").css("border-color", "gray");
+  $(".inputLocation").css("color", "gray");
+  $(".generateButton").css("border-color", "gray");
+  $(".generateButton").css("cursor", "not-allowed");
+  $("#upgradeBtn").css("border-color", "gray");
+  $(".generateButton").css("color", "gray");
+  $("#upgradeBtn").css("color", "gray");
+  $(".generateButton").prop('disabled', true);
+  $(".form-control").css("border-color", "gray");
+}
+
+const undoGrayOutBoxes = () => {
+  $(".form-control").css("color", "white");
+  $(".form-group").css("color", "white");
+  $(".inputQuantity").css("color", "white");
+  $(".inputQuantity").css("border-color", "white");
+  $(".inputLocation").css("color", "white");
+  $(".generateButton").css("border-color", "white");
+  $(".generateButton").css("cursor", "pointer");
+  $("#upgradeBtn").css("border-color", "white");
+  $(".generateButton").css("color", "white");
+  $("#upgradeBtn").css("color", "white");
+  $(".generateButton").prop('disabled', false);
+  $(".form-control").css("border-color", "white");
+}
+
+
+const hideLoader = () => {
+  $(".loader").fadeOut();
+  $("#preloder")
+    .delay(300)
+    .fadeOut("slow");
+
+}
+
+
+// $(window).on("load", function() {
+  /*------------------
+		Preloder
+  --------------------*/
+  // while (!loaded) {
+    
+  // }
+ 
