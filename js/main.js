@@ -41,13 +41,22 @@ $(window).on("load", function() {
 function Circle(el) {
   $(el)
     .circleProgress({
+      value: 0.6,
       size: 80,
       fill: { color: "#ff5c5c" }
     })
     .on("circle-animation-progress", function(event, progress, stepValue) {
+      var val = "";
+      if (stepValue == 0 || stepValue == 1) {
+        val = String(stepValue);
+      } else {
+        val = String(stepValue.toFixed(2)).substr(2);
+      }
+
       $(this)
         .find("strong")
-        .text(String(stepValue.toFixed(2)).substr(2) + "%");
+        //.text(String(stepValue.toFixed(2)).substr(2) + "%");
+        .text(val + "%");
     });
 }
 
