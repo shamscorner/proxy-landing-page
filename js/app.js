@@ -1,6 +1,6 @@
 const urlRoot = "/";
-const stripe = Stripe('pk_test_QUV3pT2NBH7sxel9LmXcxEIW00NPyDUugo');
-// const stripe = Stripe('pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj');
+// const stripe = Stripe('pk_test_QUV3pT2NBH7sxel9LmXcxEIW00NPyDUugo');
+const stripe = Stripe('pk_live_GsquFcaJv5ZaC3Ocj5U7ibZC00r3wX89Pj');
 const elements = stripe.elements();
 addCardPresent = false;
 loaded = false;
@@ -30,7 +30,7 @@ const card = elements.create("card", { style: style });
 $(document).ready(function () {
   // hide the card initially
   var cardContainer = $("#card-element");
-  cardContainer.hide();
+  // cardContainer.hide();
 
   // hide the card each time other pricing option selected
   $(".card-hide").click(function () {
@@ -107,9 +107,22 @@ const processOrder = async (n) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(params)
-  }).then(response => {
-    window.location.href = "/dashboard";
-  });
+  })
+  .then(async (response) => {
+    console.log(response.status)
+    if (response.status == 200) {
+      $("#payment-status").show();
+      await sleep(3000)
+      console.log("Payment success!")
+      window.location.href = "/dashboard";
+    } else {
+      $("#payment-status").css("color", "red");
+      $("#payment-status").text("Payment Error")  
+      $("#payment-status").show();
+    }
+  
+  })
+ 
 };
 
 // handle registration form submission
@@ -131,7 +144,7 @@ const registerSubmit = async e => {
     registerEmail === "" ||
     registerPW === ""
   ) {
-    registerErrors.innerHTML = "Please fill all fields";
+    registerErrors.innerHTML = "Please fill all fields!";
     return;
   } else if (registerPW !== registerPW2) {
     registerErrors.innerHTML = "Passwords do not match";
@@ -770,11 +783,7 @@ const hideLoader = () => {
 }
 
 
-// $(window).on("load", function() {
-  /*------------------
-		Preloder
-  --------------------*/
-  // while (!loaded) {
-    
-  // }
- 
+$('#purchaseModal').on('hidden.bs.modal', function (e) {
+
+  $("#payment-status").hide();
+})

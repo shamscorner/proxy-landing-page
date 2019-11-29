@@ -794,3 +794,12 @@ Responsive
   display: none;
 }
 
+#payment-status {
+  color: #ffc107;
+  display: none;
+}
+
+
+#card-errors {
+  color: white;
+}
